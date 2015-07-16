@@ -6,8 +6,17 @@ body{
 
 .product{
 
+	position: relative;
 	background-color: #ccc;
 	border-radius: 3px;
 	margin:3px;
+
+}
+
+.product-delete{
+
+	position: absolute;
+	top:5px;
+	right: 5px;
 
 }

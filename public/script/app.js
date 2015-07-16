@@ -5,11 +5,21 @@ var app = {
 	initialize:function(){
 
 		app.getProducts();
+		app.setEvents();
+
+	},
+	setEvents:function(){
+
+		$('#add-button').on('click', app.addProduct);
 
 	},
 	getProducts: function(){
+		//      update  create	
+		// get,   put,   post,   delete
+		$.get('http://localhost:3000/products', 
+			function(productsResponse){
 
-		$.get('http://localhost:3000/products', function(productsResponse){
+				console.log(productsResponse);
 
 			app.products = productsResponse;
 			app.renderProducts(productsResponse);
@@ -17,9 +27,57 @@ var app = {
 		});
 
 	},
+	addProduct:function(){
+
+		var nameValue = $('#name').val();
+		var priceValue = $('#price').val();
+
+		console.log(nameValue);
+		console.log(priceValue);
+
+		$.post('http://localhost:3000/products', 
+			{ 
+				name 	: nameValue, 
+				price 	: priceValue 
+			}, function(productResponse){
+
+				app.products.push(productResponse);
+
+				app.renderProducts(app.products);
+
+			});
+
+	},
+	deleteProduct:function(){
+
+		console.log($(this).attr('id'));
+
+		var id = $(this).attr('id');
+
+		$.ajax({
+			url:'http://localhost:3000/products/'+id,
+			method:'DELETE',
+			success:function(resDoc){
+
+				for(var i=0;i<app.products.length;i++){
+					if(resDoc._id === app.products[i]._id){
+
+						app.products.splice(i,1);
+
+					}
+				}
+
+				app.renderProducts(app.products);
+
+			}
+		});
+
+	},
 	renderProducts:function(products){
 
 		var container = $('.products-container');
+
+		container.empty();
 
 		for(var i=0;i<products.length;i++){
 
@@ -30,7 +88,16 @@ var app = {
 			var price = $('<p>', {text:'Price: '+productData.price});
 			var stock = $('<p>', {text:'Stock: '+productData.stock});
 
-			productContainer.append(name, price, stock);
+			var deleteButton = $('<div>', 
+				{
+					text:'Delete', 
+					class:'btn btn-danger product-delete', 
+					id:productData._id
+				});
+
+			deleteButton.on('click', app.deleteProduct);
+
+			productContainer.append(name, price, stock, deleteButton);
 
 			container.append(productContainer);
 
