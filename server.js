@@ -16,11 +16,12 @@ exports.startServer = function(cb){
 		if(search !== -1){
 			//res.send('You have a mac, you are not welcome');
 		}
+
 		next();
 
 	});
 
-	server = app.listen(3000, function(){
+	server = app.listen(3426, function(){
 
 		console.log('Server started');
 		cb();
