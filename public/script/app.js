@@ -16,7 +16,7 @@ var app = {
 	getProducts: function(){
 		//      update  create	
 		// get,   put,   post,   delete
-		$.get('http://localhost:3000/products', 
+		$.get('/products', 
 			function(productsResponse){
 
 				console.log(productsResponse);
@@ -35,7 +35,7 @@ var app = {
 		console.log(nameValue);
 		console.log(priceValue);
 
-		$.post('http://localhost:3000/products', 
+		$.post('/products', 
 			{ 
 				name 	: nameValue, 
 				price 	: priceValue 
@@ -55,7 +55,7 @@ var app = {
 		var id = $(this).attr('id');
 
 		$.ajax({
-			url:'http://localhost:3000/products/'+id,
+			url:'/products/'+id,
 			method:'DELETE',
 			success:function(resDoc){
 
