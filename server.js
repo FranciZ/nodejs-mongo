@@ -13,8 +13,11 @@ exports.startServer = function(cb){
 
 		var userAgent = req.get('User-Agent');
 		var search = userAgent.indexOf('Mac');
+
 		if(search !== -1){
+
 			//res.send('You have a mac, you are not welcome');
+			
 		}
 
 		next();
